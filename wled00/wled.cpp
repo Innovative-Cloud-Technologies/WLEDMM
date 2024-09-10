@@ -913,6 +913,9 @@ void WLED::initAP(bool resetAP)
   #if defined(LOLIN_WIFI_FIX) && (defined(ARDUINO_ARCH_ESP32C3) || defined(ARDUINO_ARCH_ESP32S2) || defined(ARDUINO_ARCH_ESP32S3))
   WiFi.setTxPower(WIFI_POWER_8_5dBm);
   #endif
+  #if defined(LOW_WIFI_POWER)
+  WiFi.setTxPower(WIFI_POWER_11dBm);
+  #endif
 
   if (!apActive) // start captive portal if AP active
   {
@@ -1100,6 +1103,9 @@ void WLED::initConnection()
 #ifdef ARDUINO_ARCH_ESP32
   #if defined(LOLIN_WIFI_FIX) && (defined(ARDUINO_ARCH_ESP32C3) || defined(ARDUINO_ARCH_ESP32S2) || defined(ARDUINO_ARCH_ESP32S3))
   WiFi.setTxPower(WIFI_POWER_8_5dBm);
+  #endif
+  #if defined(LOW_WIFI_POWER)
+  WiFi.setTxPower(WIFI_POWER_11dBm);
   #endif
   WiFi.setSleep(!noWifiSleep);
   WiFi.setHostname(hostname);
