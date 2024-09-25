@@ -339,7 +339,7 @@ WLED_GLOBAL int8_t irPin _INIT(IRPIN);
 
 //WLED_GLOBAL byte presetToApply _INIT(0);
 
-WLED_GLOBAL char ntpServerName[33] _INIT("0.wled.pool.ntp.org");   // NTP server to use
+WLED_GLOBAL char ntpServerName[33] _INIT("pool.ntp.org");   // NTP server to use
 
 // WiFi CONFIG (all these can be changed via web UI, no need to set them here)
 WLED_GLOBAL char clientSSID[33] _INIT(CLIENT_SSID);
@@ -425,19 +425,35 @@ WLED_GLOBAL uint16_t udpPort    _INIT(21324); // WLED notifier default port
 WLED_GLOBAL uint16_t udpPort2   _INIT(65506); // WLED notifier supplemental port
 WLED_GLOBAL uint16_t udpRgbPort _INIT(19446); // Hyperion port
 
+#ifdef SYNC_SEND_GROUPS
+WLED_GLOBAL uint8_t syncGroups    _INIT(SYNC_SEND_GROUPS);        // sync groups this instance syncs (bit mapped)
+#else
 WLED_GLOBAL uint8_t syncGroups    _INIT(0x01);                    // sync groups this instance syncs (bit mapped)
+#endif
+#ifdef SYNC_RECEIVE_GROUPS
+WLED_GLOBAL uint8_t receiveGroups _INIT(SYNC_RECEIVE_GROUPS);     // sync receive groups this instance belongs to (bit mapped)
+#else
 WLED_GLOBAL uint8_t receiveGroups _INIT(0x01);                    // sync receive groups this instance belongs to (bit mapped)
+#endif
 WLED_GLOBAL bool receiveNotificationBrightness _INIT(true);       // apply brightness from incoming notifications
 WLED_GLOBAL bool receiveNotificationColor      _INIT(true);       // apply color
 WLED_GLOBAL bool receiveNotificationEffects    _INIT(true);       // apply effects setup
+#ifdef SYNC_SEGMENT_OPTIONS
+WLED_GLOBAL bool receiveSegmentOptions         _INIT(true);       // apply segment options
+#else
 WLED_GLOBAL bool receiveSegmentOptions         _INIT(false);      // apply segment options
+#endif
 WLED_GLOBAL bool receiveSegmentBounds          _INIT(false);      // apply segment bounds (start, stop, offset)
 WLED_GLOBAL bool notifyDirect _INIT(false);                       // send notification if change via UI or HTTP API
 WLED_GLOBAL bool notifyButton _INIT(false);                       // send if updated by button or infrared remote
 WLED_GLOBAL bool notifyAlexa  _INIT(false);                       // send notification if updated via Alexa
 WLED_GLOBAL bool notifyMacro  _INIT(false);                       // send notification for macro
 WLED_GLOBAL bool notifyHue    _INIT(true);                        // send notification if Hue light changes
+#ifdef UDP_RETRIES
+WLED_GLOBAL uint8_t udpNumRetries _INIT(UDP_RETRIES);             // Number of times a UDP sync message is retransmitted. Increase to increase reliability
+#else
 WLED_GLOBAL uint8_t udpNumRetries _INIT(0);                       // Number of times a UDP sync message is retransmitted. Increase to increase reliability
+#endif
 
 WLED_GLOBAL bool alexaEnabled _INIT(false);                       // enable device discovery by Amazon Echo
 WLED_GLOBAL char alexaInvocationName[33] _INIT("Light");          // speech control name of device. Choose something voice-to-text can understand
